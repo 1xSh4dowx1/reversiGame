@@ -20,15 +20,16 @@ The game supports two players (`@` in green vs. `#` in red), highlights valid mo
 ## 🗂 Project Structure
 
 src/
+
 ├── main.kt # Entry point
-├── colors/
-│ └── Colors.kt # ANSI color codes
-├── model/
-│ ├── Board.kt # Game board
-│ ├── Move.kt # Move representation
-│ └── ReversiGame.kt # Game logic
-└── comandLine/
-└── ReversiCLI.kt # CLI interface
+  ├── colors/
+    └── Colors.kt # ANSI color codes
+  ├── model/
+    ├── Board.kt # Game board
+    ├── Move.kt # Move representation
+    └── ReversiGame.kt # Game logic
+  └── comandLine/
+    └── ReversiCLI.kt # CLI interface
 
 ## ▶️ How to Run
  
@@ -36,16 +37,8 @@ src/
 
 2. Open the kotlin project on Intelij
 
-3. Starting board
-     A B C D E F G H
-1 . . . . . . . .
-2 . . . . . . . .
-3 . . . . . . . .
-4 . . . @ # . . .
-5 . . . # @ . . .
-6 . . . . . . . .
-7 . . . . . . . .
-8 . . . . . . . .
+<img width="206" height="314" alt="image" src="https://github.com/user-attachments/assets/e16d9171-0e72-4f69-bed6-f0dcf4e4125f" />
+
 
 4. Commands
 
@@ -60,20 +53,7 @@ exit
 
 Move command (e.g., play 4c)
 
-You are player @ in game 0
-  A B C D E F G H
-1 . . . . . . . .
-2 . . . . . . . .
-3 . . . . . . . .
-4 . . . @ # . . .
-5 . . . # @ . . .
-6 . . . . . . . .
-7 . . . . . . . .
-8 . . . . . . . .
-# = 2 | @ = 2
-
-Turn @ > play 3d
-Valid move!
+<img width="303" height="437" alt="image" src="https://github.com/user-attachments/assets/9072cf39-48ed-4650-b20c-84e88617997e" />
 
 ✅ Future Improvements:
 
