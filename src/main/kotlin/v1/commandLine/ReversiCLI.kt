@@ -1,9 +1,14 @@
-package comandLine
+package v1.commandLine
 
-import model.ReversiGame
+import v1.model.ReversiGame
 import colors.Colors
-import model.Move
+import v1.model.Move
 
+/**
+ * Command Line Interface (CLI) for playing Reversi using ReversiGame.
+ *
+ * Highlights valid moves in yellow and prints colored pieces.
+ */
 class ReversiCLI {
 
     /**
@@ -15,7 +20,7 @@ class ReversiCLI {
         println("Commands: play <row><col> (e.g., play 4c) | exit\n")
         game.printGame()
 
-        while (true) {
+        while (game.getValidMoves().isNotEmpty()) {
             val validMoves = game.getValidMoves()
             if (validMoves.isEmpty()) {
                 println("${Colors.RED}No valid moves available!${Colors.RESET}")

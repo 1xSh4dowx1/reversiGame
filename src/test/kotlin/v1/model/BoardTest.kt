@@ -1,5 +1,6 @@
-package model
+package v1.model
 
+import v1.model.*
 import kotlin.test.*
 
 /**

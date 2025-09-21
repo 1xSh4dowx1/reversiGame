@@ -1,5 +1,9 @@
-package model
+package v1.model
 
+import v1.model.Move
+import v1.model.ReversiGame
+import v1.model.player1
+import v1.model.player2
 import kotlin.test.*
 
 /**

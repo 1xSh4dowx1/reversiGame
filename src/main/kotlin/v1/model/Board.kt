@@ -1,4 +1,4 @@
-package model
+package v1.model
 
 import colors.Colors
 
@@ -48,7 +48,7 @@ class Board(val grid: Array<CharArray>) {
                     cell == player2 -> "${Colors.RED}$player2${Colors.RESET}"
                     validMoves.any { it.row == row && it.col == col } ->
                         "${Colors.YELLOW}$cell${Colors.RESET}"
-                    else -> model.cell.toString()
+                    else -> v1.model.cell.toString()
                 }
                 print("$symbol ")
             }

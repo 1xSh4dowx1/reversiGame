@@ -1,4 +1,4 @@
-package model
+package v1.model
 
 /**
  * Represents a move on the board.

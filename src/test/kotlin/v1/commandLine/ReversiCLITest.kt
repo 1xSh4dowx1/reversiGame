@@ -1,6 +1,6 @@
-package commandLine
+package v1.commandLine
 
-import comandLine.ReversiCLI
+import v1.commandLine.ReversiCLI
 import kotlin.test.*
 
 /**
