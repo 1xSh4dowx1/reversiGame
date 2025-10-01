@@ -15,9 +15,9 @@ import colors.Colors
  *
  * This representation is much more memory efficient than an array of Chars.
  */
-class BitBoard(
-    private var part1: Long = 0L, // Stores cells 0..31
-    private var part2: Long = 0L  // Stores cells 32..63
+data class BitBoard(
+    val part1: Long = 0L, // Stores cells 0..31
+    val part2: Long = 0L  // Stores cells 32..63
 ) {
 
     companion object {
@@ -43,65 +43,33 @@ class BitBoard(
         else -> "."
     }
 
-    /**
-     * Gets the value of a cell at position (row, col).
-     *
-     * @param row Row index (0..7)
-     * @param col Column index (0..7)
-     * @return The value of the cell: EMPTY, PLAYER1 or PLAYER2
-     */
+    /** Gets the value of a cell at position (row, col). */
     fun get(row: Int, col: Int): Int {
-        val index = row * 8 + col                       // Convert 2D position to linear index (0..63)
-        val (part, shift) = if (index < 32) {
-                                                        // First half of the board is stored in part1
-            Pair(part1, index * 2)
-        } else {
-                                                        // Second half of the board is stored in part2
-                                                        // Subtract 32 because part2 starts at cell index 32
-            Pair(part2, (index - 32) * 2)
-        }
-
-                                                        // Extract 2 bits by shifting right and masking with binary 11 (decimal 3)
-        return ((part shr shift) and 3L).toInt()        // Returns the values 0, 1 or 2 for the correct cells
+        val index = row * 8 + col
+        val (part, shift) = if (index < 32) Pair(part1, index * 2) else Pair(part2, (index - 32) * 2)
+        return ((part shr shift) and 3L).toInt()
     }
 
     /**
-     * Sets the value of a cell at position (row, col).
-     *
-     * @param row Row index (0..7)
-     * @param col Column index (0..7)
-     * @param value The value to assign: EMPTY, PLAYER1 or PLAYER2
+     * Returns a new BitBoard with updated cell value (immutability preserved).
      */
-    fun set(row: Int, col: Int, value: Int) {
+    fun set(row: Int, col: Int, value: Int): BitBoard {
         val index = row * 8 + col
-        if (index < 32) {
+        return if (index < 32) {
             val shift = index * 2
-            // Clear the previous 2 bits with AND NOT (mask = 11 << shift)
-            part1 = part1 and (3L shl shift).inv()
-            // Write the new value in the correct position
-            part1 = part1 or (value.toLong() shl shift)
+            val cleared = part1 and (3L shl shift).inv()
+            copy(part1 = cleared or (value.toLong() shl shift))
         } else {
             val shift = (index - 32) * 2
-            part2 = part2 and (3L shl shift).inv()
-            part2 = part2 or (value.toLong() shl shift)
+            val cleared = part2 and (3L shl shift).inv()
+            copy(part2 = cleared or (value.toLong() shl shift))
         }
     }
 
-    /**
-     * Counts how many cells contain the given value.
-     *
-     * @param value The value to count (EMPTY, PLAYER1, PLAYER2)
-     * @return The number of cells with the given value
-     */
-    fun count(value: Int): Int {
-        var count = 0
-        for (i in 0..<64) {
-            if (get(i / 8, i % 8) == value) {
-                count++
-            }
-        }
-        return count
-    }
+
+    /** Counts how many cells contain the given value. */
+    fun count(value: Int): Int =
+        (0..<64).count { get(it / 8, it % 8) == value }
 
 
     /**
