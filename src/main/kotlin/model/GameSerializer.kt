@@ -14,11 +14,11 @@ object GameSerializer : Serializer<Game> {
         val cellsStr = data.board.cells.entries.joinToString(" ") {
             "${it.key.index}:${it.value.name}"
         }
-        return "${data.board.turn.name} # ${data.targets} # $cellsStr"
+        return "${data.board.turn.name} - ${data.targets} - $cellsStr"
     }
 
     override fun deserialize(text: String): Game {
-        val parts = text.split(" # ")
+        val parts = text.split(" - ")
         require(parts.size == 3) { "Invalid game format" }
         val turn = Player.valueOf(parts[0])
         val targets = parts[1].toBoolean()
