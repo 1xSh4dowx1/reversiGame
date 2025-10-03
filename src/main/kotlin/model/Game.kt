@@ -27,10 +27,31 @@ data class Game(
     fun toggleTargets(on: Boolean? = null): Game =
         copy(targets = on ?: !targets)
 
+    /** Verify the gameState: Ongoing, Draw ou Winner */
+    fun result(): GameResult {
+        val blackMoves = board.copy(turn = Player.BLACK).validMoves()
+        val whiteMoves = board.copy(turn = Player.WHITE).validMoves()
+
+        if (blackMoves.isNotEmpty() || whiteMoves.isNotEmpty()) {
+            return GameResult.Ongoing
+        }
+
+        val scores = board.score()
+        val black = scores[Player.BLACK] ?: 0
+        val white = scores[Player.WHITE] ?: 0
+
+        return when {
+            black > white -> GameResult.Winner(Player.BLACK)
+            white > black -> GameResult.Winner(Player.WHITE)
+            else -> GameResult.Draw
+        }
+    }
+
     /**
      * String representation for console:
      * - Calls Board.render() to draw the grid
      * - Adds score and current turn below, with colors
+     * - Represents the gameState
      */
     fun show(): String {
         val sb = StringBuilder()
@@ -42,10 +63,19 @@ data class Game(
         sb.appendLine()
         sb.appendLine("${Colors.RED}# = $black${Colors.RESET} | ${Colors.GREEN}@ = $white${Colors.RESET}")
 
-        // Current turn
-        val turnColor = if (board.turn == Player.BLACK) Colors.RED else Colors.GREEN
-        sb.appendLine("Turn: $turnColor${board.turn.symbol}${Colors.RESET}")
+        when (val r = result()) {
+            GameResult.Ongoing -> {
+                val turnColor = if (board.turn == Player.BLACK) Colors.RED else Colors.GREEN
+                sb.appendLine("Turn: $turnColor${board.turn.symbol}${Colors.RESET}")
+            }
+            GameResult.Draw -> sb.appendLine("Game finished: Draw!")
+            is GameResult.Winner -> {
+                val color = if (r.player == Player.BLACK) Colors.RED else Colors.GREEN
+                sb.appendLine("Game finished: Winner is $color${r.player.symbol}${Colors.RESET}")
+            }
+        }
 
         return sb.toString()
     }
+
 }

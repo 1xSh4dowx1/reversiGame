@@ -41,7 +41,7 @@ data class Board(
     }
 
     private fun inBounds(row: Int, col: Int) =
-        row in 0 until Position.BOARD_SIZE && col in 0 until Position.BOARD_SIZE
+        row in 0..<Position.BOARD_SIZE && col in 0..<Position.BOARD_SIZE
 
     /** Returns opponent pieces to flip for a given move. */
     private fun flips(pos: Position, player: Player): List<Position> {
@@ -97,15 +97,15 @@ data class Board(
 
         // Column headers
         sb.append("   ")
-        for (c in 0 until Position.BOARD_SIZE) {
+        for (c in 0..<Position.BOARD_SIZE) {
             sb.append(('a' + c)).append(" ")
         }
         sb.appendLine()
 
         // Rows with cells
-        for (r in 0 until Position.BOARD_SIZE) {
+        for (r in 0..<Position.BOARD_SIZE) {
             sb.append("${r + 1}  ")
-            for (c in 0 until Position.BOARD_SIZE) {
+            for (c in 0..<Position.BOARD_SIZE) {
                 val pos = Position.of(r, c)
                 sb.append(
                     when (pos) {

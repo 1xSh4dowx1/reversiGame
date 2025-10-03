@@ -3,10 +3,10 @@ package model
 import storage.Storage
 
 /** Alias for game storage. */
-typealias GameStorage = Storage<String, Game>
+typealias GameStorage = Storage<String, Game> // Type alias makes use of an existent type while giving it an alternative name
 
 /** Base class for a Clash, referencing the storage. */
-open class Clash(val storage: GameStorage)
+open class Clash(val storage: GameStorage) // Open class -> generic base class that can have subclasses (ClashRun)
 
 /** Running clash with a name, game state and side player. */
 class ClashRun(

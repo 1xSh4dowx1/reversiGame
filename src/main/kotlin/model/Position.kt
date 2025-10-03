@@ -22,7 +22,7 @@ value class Position private constructor(val index: Int) {
             values[row * BOARD_SIZE + col]
 
         /** Factory from index. */
-        operator fun invoke(index: Int) = values[index]
+        operator fun invoke(index: Int) = values[index] // Operator fun makes possible stuff like Position(9) instead of saying Position.invoke(9)
     }
 
     override fun toString() = index.toString()

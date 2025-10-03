@@ -1,5 +1,6 @@
+package model
+
 import kotlin.test.*
-import model.*
 
 class BoardTests {
 
@@ -19,7 +20,7 @@ class BoardTests {
     @Test
     fun playingInvalidMoveThrowsException() {
         val board = Board.initial()
-        val pos = Position.of(0, 0) // canto vazio mas não válido
+        val pos = Position.of(0, 0)
         assertFailsWith<IllegalArgumentException> {
             board.play(pos)
         }

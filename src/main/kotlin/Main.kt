@@ -1,5 +1,3 @@
-package isel.leic.tds.reversi
-
 import model.*
 import storage.*
 
@@ -18,7 +16,9 @@ fun String.toPositionOrNull(): Position? {
 }
 
 fun main() {
-    var clash = Clash(TextFileStorage("games", GameSerializer))
+    val storage: GameStorage = TextFileStorage("games", GameSerializer)
+    var clash = Clash(storage)
+
     println("Welcome to Reversi (Multiplayer)")
     println("Commands: new (#|@) [name], join <name>, play <idx|d3>, pass, refresh, targets [ON|OFF], show, exit")
 
@@ -38,7 +38,12 @@ fun main() {
                         else -> Player.BLACK
                     }
                     val name = if (args.size > 1) args[1] else "local"
-                    val newClash = clash.start(name, player)
+
+                    val chosenStorage =
+                        if (name == "local") MemoryStorage()
+                        else storage
+
+                    val newClash = Clash(chosenStorage).start(name, player)
                     if (newClash is ClashRun) {
                         println("You are player ${newClash.sidePlayer} in game ${newClash.name}")
                     }
@@ -96,3 +101,4 @@ fun main() {
         }
     }
 }
+
