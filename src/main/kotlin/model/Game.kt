@@ -53,8 +53,15 @@ data class Game(
      * - Adds score and current turn below, with colors
      * - Represents the gameState
      */
-    fun show(): String {
+    fun show(sidePlayer: Player? = null, gameName: String? = null): String {
         val sb = StringBuilder()
+
+        if (sidePlayer != null && gameName != null) {
+            val playerColor = if (sidePlayer == Player.BLACK) Colors.RED else Colors.GREEN
+            val lobbyColor = Colors.YELLOW
+            sb.appendLine("You are player $playerColor${sidePlayer.symbol}${Colors.RESET} in game $lobbyColor$gameName${Colors.RESET}")
+        }
+
         sb.append(board.render(targets))
 
         val scores = board.score()
@@ -66,7 +73,7 @@ data class Game(
         when (val r = result()) {
             GameResult.Ongoing -> {
                 val turnColor = if (board.turn == Player.BLACK) Colors.RED else Colors.GREEN
-                sb.appendLine("Turn: $turnColor${board.turn.symbol}${Colors.RESET}")
+                sb.appendLine("Turn $turnColor${board.turn.symbol}${Colors.RESET} >")
             }
             GameResult.Draw -> sb.appendLine("Game finished: Draw!")
             is GameResult.Winner -> {
@@ -77,5 +84,6 @@ data class Game(
 
         return sb.toString()
     }
+
 
 }

@@ -28,7 +28,7 @@ fun main() {
             try {
                 clash = command.execute(args, clash)
                 if (clash is ClashRun && name !in listOf("SHOW")) {
-                    println(clash.game.show())
+                    println(clash.game.show(clash.sidePlayer, clash.name))
                 }
             } catch (e: Exception) {
                 println("Error: ${e.message}")

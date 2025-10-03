@@ -27,36 +27,40 @@ private val playCommand = Command { args, clash ->
 
 fun getCommands(fileStorage: GameStorage, memoryStorage: GameStorage) = mapOf(
     "EXIT" to Command(isTerminate = true),
+
     "NEW" to Command { args, _ ->
         val symbol = args.firstOrNull()
         val player = when (symbol) {
-            "${Player.BLACK}" -> Player.BLACK
-            "${Player.WHITE}" -> Player.WHITE
+            Player.BLACK.symbol.toString() -> Player.BLACK
+            Player.WHITE.symbol.toString() -> Player.WHITE
             else -> Player.BLACK
         }
         val name = if (args.size > 1) args[1] else "local"
-
         val chosenStorage = if (name == "local") memoryStorage else fileStorage
-
         Clash(chosenStorage).start(name, player)
     },
-    "JOIN" to commandWithName(Clash::join),
+
+    "JOIN" to commandWithName { name ->
+        join(name)
+    },
+
     "PLAY" to playCommand,
-    "PASS" to commandNoArgs(Clash::pass),
-    "REFRESH" to commandNoArgs(Clash::refresh),
+
+    "PASS" to commandNoArgs { pass() },
+
+    "REFRESH" to commandNoArgs { refresh() },
+
     "SHOW" to Command { _, clash ->
-        (clash as? ClashRun)?.also {
-            println(it.game.show())
+        (clash as? ClashRun)?.also { runClash ->
+            println(runClash.game.show(runClash.sidePlayer, runClash.name))
         } ?: clash
     },
+
     "TARGETS" to Command { args, clash ->
         require(clash is ClashRun)
         val showTargets = args.firstOrNull()?.uppercase() == "ON"
-        ClashRun(
-            clash.storage, clash.name,
-            clash.game.toggleTargets(showTargets),
-            clash.sidePlayer
-        )
+        ClashRun(clash.storage, clash.name, clash.game.toggleTargets(showTargets), clash.sidePlayer)
     }
-
 )
+
+
